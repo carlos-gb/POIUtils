@@ -8,7 +8,7 @@ Para poder usar la clase para leer archivos de excel, necesitamos la direccion d
 String pathFile = "/home/solrac/pruebas.xls";
 
 //Cabeceras en el archivo que nos interesa procesar
-String[] cabecera_text = "Código del servicio,Nombre del servicio,Impuesto 1,Precio 1".split(",");
+String[] cabecera_text = new String[]{"Cabecera 1","Cabecera 2","Cabecera 3"};
 ```
 
 **Opcional: Podemos hacer todas las cabeceras opcionales para recuperar toda la informacion aunque alguna celda este vacia
