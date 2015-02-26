@@ -1,6 +1,6 @@
 
-import com.excel.elements.Header;
-import com.excel.utils.ExcelReader;
+import com.carlosgb.poi.excel.elements.Header;
+import com.carlosgb.poi.excel.utils.ExcelReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;

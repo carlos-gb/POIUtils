@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.excel.utils;
+package com.carlosgb.poi.excel.utils;
 
-import com.excel.elements.Header;
+import com.carlosgb.poi.excel.elements.Header;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;

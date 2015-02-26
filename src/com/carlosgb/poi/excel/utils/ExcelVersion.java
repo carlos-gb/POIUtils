@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.excel.utils;
+package com.carlosgb.poi.excel.utils;
 
 /**
  *
