@@ -25,13 +25,13 @@ public class LeeExcel {
         String[] cabecera_text = "Cabecera1,Cabecera2,Cabecera3".split(",");
 
         List cabecera = new ArrayList();
-        for (int i = 0; i < cabecera_text.length; i++) {
+        for (String text : cabecera_text) {
             //Hacemos a todas las cabeceras opcionales
-            cabecera.add(new Header(cabecera_text[i], false));
+            cabecera.add(new Header(text, false));
         }
 
         ExcelReader reader = new ExcelReader(pathFile, cabecera);
-        List<HashMap> hojas = reader.getContent(0);
+        List<HashMap> hojas = reader.getContent();
         List<String[]> filas = (List<String[]>) hojas.get(0).get("data");
         for (int j = 0; j < filas.size(); j++) {
             System.out.println("Fila " + (j + 1) + ": " + arrayToString(filas.get(j)));
