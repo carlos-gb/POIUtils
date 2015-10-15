@@ -167,7 +167,7 @@ public class ExcelExport {
             String[] data_temp = null;
             if(rows.get(j).getClass().isArray()){
                 data_temp=(String[])rows.get(j);
-            }else if(rows.get(j) instanceof java.util.HashMap){
+            }else if(rows.get(j) instanceof DataPoiRow){
                 data_temp=new String[headers.size()];
                 HashMap<String,Object> dataRowtemp=((DataPoiRow)rows.get(j)).toHashMapData();
                 int k=0;
