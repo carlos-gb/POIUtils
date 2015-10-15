@@ -4,6 +4,7 @@
  */
 package com.carlosgb.poi.excel.utils;
 
+import com.carlosgb.poi.excel.elements.DataPoiRow;
 import com.carlosgb.poi.excel.elements.Header;
 import java.io.*;
 import java.math.BigDecimal;
@@ -122,25 +123,30 @@ public class ExcelExport {
         float rowHeightBody = 20;
 
         if (sheet_map.get("header_height") != null) {
-            rowHeightHeader = (float) sheet_map.get("header_height");
+            rowHeightHeader = (Float)sheet_map.get("header_height");
         }
         if (sheet_map.get("body_height") != null) {
-            rowHeightBody = (float) sheet_map.get("body_height");
+            rowHeightBody = (Float) sheet_map.get("body_height");
         }
         
         hoja = wb.createSheet();
-        wb.setSheetName((int) sheet_map.get("sheet_number"), sheet_map.get("sheet_name") != null ? (String) sheet_map.get("sheet_name") : (int) sheet_map.get("sheet_number") + "");
+        wb.setSheetName((Integer) sheet_map.get("sheet_number"), sheet_map.get("sheet_name") != null ? (String) sheet_map.get("sheet_name") : (Integer) sheet_map.get("sheet_number") + "");
         List<Header> headers = new ArrayList();
+        String[] temp_cabecera =null;
         if (sheet_map.get("header").getClass().getName().equals("java.util.ArrayList")) {
             headers = (List) sheet_map.get("header");
+            temp_cabecera=new String[headers.size()];
+            for (int z=0;z<headers.size();z++) {
+                temp_cabecera[z]=headers.get(z).getNombreColumna();
+            }
         } else {
-            String[] temp_cabecera = (String[]) sheet_map.get("header");
+            temp_cabecera = (String[]) sheet_map.get("header");
             for (int p = 0; p < temp_cabecera.length; p++) {
                 Header tempHeaderObj = new Header(temp_cabecera[p]);
                 headers.add(tempHeaderObj);
             }
         }
-        List<String[]> rows = (List) sheet_map.get("data");
+        List rows = (List) sheet_map.get("data");
         
         //****Para android
         //int size_columns[]=new int[headers.size()];
@@ -158,13 +164,22 @@ public class ExcelExport {
         for (int j = 0; j < rows.size(); j++) {
             row = hoja.createRow(index_row++);
             row.setHeightInPoints(rowHeightBody);
-            String[] data_temp = rows.get(j);
+            String[] data_temp = null;
+            if(rows.get(j).getClass().isArray()){
+                data_temp=(String[])rows.get(j);
+            }else if(rows.get(j) instanceof java.util.HashMap){
+                data_temp=new String[headers.size()];
+                HashMap<String,Object> dataRowtemp=((DataPoiRow)rows.get(j)).toHashMapData();
+                int k=0;
+                for (String key : temp_cabecera) {
+                    data_temp[k++]=dataRowtemp.get(key).toString();
+                }
+            }
             for (int k = 0; k < data_temp.length; k++) {
                 if (!headers.get(k).isRequired() ? true : !headers.get(k).isRequired() || !data_temp[k].isEmpty()) {
                     //****Para android
                     //int tempSize=data_temp[k].length();
                     //if(tempSize>size_columns[k]){size_columns[k]=tempSize;}
-                    
                     if (headers.get(k).getBodyStyle().isDouble() && !data_temp[k].isEmpty()) {
                         insertData(row, k, (new BigDecimal(data_temp[k])).doubleValue(), bodyStyles[k]);
                     } else {
@@ -197,7 +212,7 @@ public class ExcelExport {
         if (text.getClass().getName().equals((new String()).getClass().getName())) {
             celda.setCellValue((String) text);
         } else {
-            celda.setCellValue((double) text);
+            celda.setCellValue((Double) text);
         }
         celda.setCellStyle(cellStyle);
         return fila;
